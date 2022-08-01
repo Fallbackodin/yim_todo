@@ -32,8 +32,10 @@ const Login: FC = () => {
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             );
 
-            if (email.match(emailRegex)) {
+            if (!email.match(emailRegex)) {
+                throw "Email format incorrect";
             }
+
             await signInWithEmailAndPassword(auth, email, password);
             navigate("/Contact");
         } catch (err) {
@@ -96,7 +98,10 @@ const Login: FC = () => {
                     </div>
                 </div>
                 <div className="flex justify-center">
-                    <button className="py-2 px-10 bg-fuchsia-700 rounded-2xl">
+                    <button
+                        className="py-2 px-10 bg-fuchsia-900 rounded-2xl"
+                        onClick={handleSignIn}
+                    >
                         Login
                     </button>
                     <button

@@ -104,26 +104,88 @@ const Register: FC = () => {
     };
 
     return (
-        <div>
-            <h2>Email</h2>
-            <input type="email" value={email} onChange={handleEmail} />
-            <h2>Password</h2>
-            <input type="password" value={password} onChange={handlePassword} />
-            <h2>Confirm Password</h2>
-            <input
-                type="password"
-                value={confirmPassword}
-                onChange={handleConfirmPassword}
-            />
-            <div>
-                <button onClick={handleRegister}>Register</button>
-            </div>
-            <div>
-                <button onClick={handleSignInRedirect}>
-                    Go back to Sign In
-                </button>
+        <div className="w-screen h-screen flex justify-center items-center text-white bg-gradient-to-b from-fuchsia-400 to-fuchsia-700">
+            <div className="w-1/2 h-3/4 flex flex-col justify-around items-center rounded-2xl bg-[#301934]">
+                <div className="w-3/4">
+                    <h1 className="text-center text-4xl font-extrabold">
+                        Todo Title
+                    </h1>
+                    <div className="mt-5 w-3/4 flex flex-col justify-center items-center mx-auto px-auto">
+                        <div className="w-full px-auto mx-auto">
+                            <h2 className="text-left ml-1 mb-1 text-lg font-bold">
+                                Email
+                            </h2>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={handleEmail}
+                                className="w-full border-solid border-2 border-[#301934] rounded-2xl px-2 py-1 bg-[#502b57]"
+                            />
+                        </div>
+                    </div>
+                    <div className="mt-5 w-3/4 flex flex-col justify-center items-center mx-auto px-auto">
+                        <div className="w-full px-auto mx-auto">
+                            <h2 className="text-left ml-1 mb-1 text-lg font-bold">
+                                Password
+                            </h2>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={handlePassword}
+                                className="w-full border-solid border-2 border-[#301934] rounded-2xl px-2 py-1 bg-[#502b57]"
+                            />
+                        </div>
+                    </div>
+                    <div className="mt-5 w-3/4 flex flex-col justify-center items-center mx-auto px-auto">
+                        <div className="w-full px-auto mx-auto">
+                            <h2 className="text-left ml-1 mb-1 text-lg font-bold">
+                                Confirm Password
+                            </h2>
+                            <input
+                                type="password"
+                                value={confirmPassword}
+                                onChange={handleConfirmPassword}
+                                className="w-full border-solid border-2 border-[#301934] rounded-2xl px-2 py-1 bg-[#502b57]"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="flex justify-center">
+                    <button
+                        className="py-2 px-10 bg-fuchsia-900 rounded-2xl"
+                        onClick={handleRegister}
+                    >
+                        Register
+                    </button>
+                    <button
+                        className="ml-5 py-2 px-10 bg-[#502b57] rounded-2xl"
+                        onClick={handleSignInRedirect}
+                    >
+                        Go back to Login
+                    </button>
+                </div>
             </div>
         </div>
+        // <div>
+        //     <h2>Email</h2>
+        //     <input type="email" value={email} onChange={handleEmail} />
+        //     <h2>Password</h2>
+        //     <input type="password" value={password} onChange={handlePassword} />
+        //     <h2>Confirm Password</h2>
+        //     <input
+        //         type="password"
+        //         value={confirmPassword}
+        //         onChange={handleConfirmPassword}
+        //     />
+        //     <div>
+        //         <button onClick={handleRegister}>Register</button>
+        //     </div>
+        //     <div>
+        //         <button onClick={handleSignInRedirect}>
+        //             Go back to Sign In
+        //         </button>
+        //     </div>
+        // </div>
     );
 };
 
