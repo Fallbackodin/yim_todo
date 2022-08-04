@@ -16,9 +16,10 @@ interface Todo {
 const Contact: FC = () => {
     const [newTask, setNewTask] = useState("");
     const [todos, setTodos] = useState<Todo[]>([]);
-    const [updateTodo, setUpdateTodo] = useState<Todo>();
+    const [updateTodo, setUpdateTodo] = useState<string>();
     const [userEmail, setUserEmail] = useState("");
     const [createModal, setCreateModal] = useState(false);
+    const [updateModal, setUpdateModal] = useState<boolean[]>([]);
     const navigate = useNavigate();
 
     const handleNewTask = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -56,6 +57,15 @@ const Contact: FC = () => {
                 complete: false,
             });
             setCreateModal(false);
+            toast.success("Todo successfully create!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         } catch (err: unknown) {
             console.log("here error");
             if (typeof err === "string") {
@@ -92,32 +102,64 @@ const Contact: FC = () => {
         remove(ref(db, `/${auth?.currentUser?.uid}/${uid}`));
     };
 
-    const handleSetUpdateTodo = (todo: Todo) => {
-        setUpdateTodo(todo);
-    };
-
-    const handleUpdateTodo = () => {
-        update(ref(db, `/${auth?.currentUser?.uid}/${updateTodo?.uid}`), {
-            todo: updateTodo?.todo,
+    const handleUpdateTodo = (todoUid: string) => {
+        update(ref(db, `/${auth?.currentUser?.uid}/${todoUid}`), {
+            todo: updateTodo,
         });
     };
 
-    const handleGetUpdateText = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUpdateTodo({ ...updateTodo!, todo: e.target.value });
+    const handleUpdateModal = (index: number) => {
+        const tempArr = new Array(todos.length).fill(false);
+        tempArr[index] = !tempArr[index];
+        setUpdateModal(tempArr);
+        setUpdateTodo(todos[index].todo);
+    };
+
+    const handleUpdateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUpdateTodo(e.target.value);
     };
 
     const renderTodos = () => {
-        return todos.map((todo) => {
+        return todos.map((todo, index) => {
             return (
                 <tr className="h-[3rem] min-h-[5rem] border-t-2 border-solid border-[#72548096]">
                     <td className="">
                         <input type="checkbox" checked={todo?.complete} />
                     </td>
                     <td className="">
-                        <button>Edit</button>
+                        <button onClick={() => handleUpdateModal(index)}>
+                            Edit
+                        </button>
                         <button>Delete</button>
                     </td>
-                    <td className="">{todo.todo}</td>
+                    {updateModal[index] ? (
+                        <div>
+                            <button
+                                onClick={() => handleUpdateTodo(todo.uid)}
+                                className="mx-1 py-1 px-2 rounded-2xl bg-fuchsia-800"
+                            >
+                                Confirm
+                            </button>
+                            <button
+                                onClick={() =>
+                                    setUpdateModal(
+                                        new Array(todos.length).fill(false)
+                                    )
+                                }
+                                className="mx-1 py-1 px-2 rounded-2xl bg-[#9f55ad]"
+                            >
+                                Cancel
+                            </button>
+                            <input
+                                type="text"
+                                value={updateTodo}
+                                onChange={handleUpdateInput}
+                                className="mt-2 py-1 px-2 border-[#502b57] rounded-2xl bg-[#502b57]"
+                            />
+                        </div>
+                    ) : (
+                        <td className="">{todo.todo}</td>
+                    )}
                 </tr>
             );
         });
@@ -149,12 +191,16 @@ const Contact: FC = () => {
     }, []);
 
     useEffect(() => {
+        setUpdateModal(new Array(todos.length).fill(false));
+    }, [todos]);
+
+    useEffect(() => {
         console.log(todos);
     }, [todos]);
 
     return (
         <div className="w-screen h-screen relative flex justify-center items-center text-white bg-gradient-to-b from-fuchsia-400 to-fuchsia-700">
-            <div className="w-4/5 h-3/4 rounded-2xl bg-[#301934] overflow-y-scroll">
+            <div className="w-4/5 h-3/4 rounded-2xl bg-[#301934] overflow-y-auto">
                 <div className="w-full px-3 py-2 flex justify-between sticky">
                     <button onClick={handleSignOut}>Sign Out</button>
                     <h1>Title</h1>
@@ -169,8 +215,8 @@ const Contact: FC = () => {
                     <thead className="text-center">
                         <tr className="relative">
                             <th className="w-[10%]">Status</th>
-                            <th className="w-[10%]">Todo</th>
-                            <th className="w-[40%]">Actions</th>
+                            <th className="w-[10%]">Actions</th>
+                            <th className="w-[40%]">Todo</th>
                             <th className="w-[5%]">D</th>
                         </tr>
                     </thead>
@@ -196,7 +242,7 @@ const Contact: FC = () => {
                                 Create
                             </button>
                             <button
-                                className="py-1 px-4 text-xl ml-1 bg-[#502b57] rounded-2xl"
+                                className="w-full py-1 px-4 text-xl ml-1 bg-[#502b57] rounded-2xl"
                                 onClick={() => setCreateModal(false)}
                             >
                                 Cancel
