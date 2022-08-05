@@ -160,10 +160,14 @@ const Contact: FC = () => {
                         <input type="checkbox" checked={todo?.complete} />
                     </td>
                     <td className="">
-                        <button onClick={() => handleUpdateModal(index)}>
+                        <button
+                            className="py-1 px-4 mr-1 text-xl bg-fuchsia-900 rounded-2xl"
+                            onClick={() => handleUpdateModal(index)}
+                        >
                             Edit
                         </button>
                         <button
+                            className="w-auto py-1 px-4 text-xl ml-1 bg-[#502b57] rounded-2xl"
                             onClick={() => {
                                 handleDeleteButton(todo);
                             }}
