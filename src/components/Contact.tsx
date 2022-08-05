@@ -19,6 +19,8 @@ const Contact: FC = () => {
     const [updateTodo, setUpdateTodo] = useState<string>();
     const [userEmail, setUserEmail] = useState("");
     const [createModal, setCreateModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteTodo, setDeleteTodo] = useState<Todo>();
     const [updateModal, setUpdateModal] = useState<boolean[]>([]);
     const navigate = useNavigate();
 
@@ -98,8 +100,39 @@ const Contact: FC = () => {
         }
     };
 
-    const handleDelete = (uid: string) => {
-        remove(ref(db, `/${auth?.currentUser?.uid}/${uid}`));
+    const handleDelete = () => {
+        try {
+            remove(ref(db, `/${auth?.currentUser?.uid}/${deleteTodo?.uid}`));
+            setDeleteModal(false);
+            toast.success("Todo successfully deleted!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } catch {
+            setDeleteModal(false);
+            toast.error(
+                "There was problem deleting the todo, please try again later",
+                {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                }
+            );
+        }
+    };
+
+    const handleDeleteButton = (todo: Todo) => {
+        setDeleteModal(true);
+        setDeleteTodo(todo);
     };
 
     const handleUpdateTodo = (todoUid: string) => {
@@ -130,7 +163,13 @@ const Contact: FC = () => {
                         <button onClick={() => handleUpdateModal(index)}>
                             Edit
                         </button>
-                        <button>Delete</button>
+                        <button
+                            onClick={() => {
+                                handleDeleteButton(todo);
+                            }}
+                        >
+                            Delete
+                        </button>
                     </td>
                     {updateModal[index] ? (
                         <div>
@@ -246,6 +285,30 @@ const Contact: FC = () => {
                                 onClick={() => setCreateModal(false)}
                             >
                                 Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {deleteModal && (
+                <div className="w-4/5 h-3/4 absolute flex justify-center items-center rounded-2xl bg-black/75">
+                    <div className="w-3/4 h-3/4 flex flex-col justify-center items-center rounded-2xl bg-[#301934]">
+                        <h1 className="mb-5 text-3xl font-extrabold">
+                            Delete Todo
+                        </h1>
+                        <p className="my-10">{deleteTodo?.todo}</p>
+                        <div className="w-1/4 flex justify-between">
+                            <button
+                                onClick={handleDelete}
+                                className="py-1 px-4 mr-1 text-xl bg-fuchsia-900 rounded-2xl"
+                            >
+                                Delete
+                            </button>
+                            <button
+                                className="w-full py-1 px-4 text-xl ml-1 bg-[#502b57] rounded-2xl"
+                                onClick={() => setDeleteModal(false)}
+                            >
+                                Go back
                             </button>
                         </div>
                     </div>
