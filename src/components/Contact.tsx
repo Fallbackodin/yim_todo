@@ -1,10 +1,12 @@
 import React, { FC, useState, useEffect } from "react";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "../Firebase";
+import { set, ref, onValue, remove, update } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { set, ref, onValue, remove, update } from "firebase/database";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { uid } from "uid";
 
 interface Todo {
@@ -43,6 +45,23 @@ const Contact: FC = () => {
                 progress: undefined,
             });
         }
+    };
+
+    const handlePDFDownload = () => {
+        const doc = new jsPDF();
+        const todoFormatPDF = [];
+
+        for (const todo of todos) {
+            let temp = [todo.complete ? "complete" : "in-progress", todo.todo];
+            todoFormatPDF.push(temp);
+        }
+
+        console.log(todoFormatPDF);
+        autoTable(doc, {
+            head: [["Status", "Todo"]],
+            body: todoFormatPDF,
+        });
+        doc.save("todo.pdf");
     };
 
     const writeToDb = () => {
@@ -245,12 +264,20 @@ const Contact: FC = () => {
         <div className="w-screen h-screen relative flex justify-center items-center text-white bg-gradient-to-b from-fuchsia-400 to-fuchsia-700">
             <div className="w-4/5 h-3/4 rounded-2xl bg-[#301934] overflow-y-auto">
                 <div className="w-full px-3 py-2 flex justify-between sticky">
-                    <button onClick={handleSignOut}>Sign Out</button>
-                    <h1>Title</h1>
-                    <h1>{userEmail}</h1>
+                    <button
+                        className="py-1 px-2 text-lg mr-1 bg-[#502b57] rounded-2xl"
+                        onClick={handleSignOut}
+                    >
+                        Sign Out
+                    </button>
+                    <h1 className="text-4xl font-">Yim Todo</h1>
+                    <h2 className="text-lg">{userEmail}</h2>
                 </div>
                 <div className="flex justify-between px-3 py-2">
-                    <button onClick={() => setCreateModal(true)}>
+                    <button
+                        className="py-1 px-4 mr-1 text-xl bg-fuchsia-900 rounded-2xl"
+                        onClick={() => setCreateModal(true)}
+                    >
                         Create Todo
                     </button>
                 </div>
@@ -260,7 +287,9 @@ const Contact: FC = () => {
                             <th className="w-[10%]">Status</th>
                             <th className="w-[10%]">Actions</th>
                             <th className="w-[40%]">Todo</th>
-                            <th className="w-[5%]">D</th>
+                            <th className="w-[5%]" onClick={handlePDFDownload}>
+                                D
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="text-center">{renderTodos()}</tbody>
