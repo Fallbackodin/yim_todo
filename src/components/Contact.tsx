@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { BsDownload } from "react-icons/bs";
 import { uid } from "uid";
 
 interface Todo {
@@ -288,7 +289,7 @@ const Contact: FC = () => {
                             <th className="w-[10%]">Actions</th>
                             <th className="w-[40%]">Todo</th>
                             <th className="w-[5%]" onClick={handlePDFDownload}>
-                                D
+                                <BsDownload className="w-20 cursor-pointer" />
                             </th>
                         </tr>
                     </thead>
