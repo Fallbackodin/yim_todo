@@ -1,6 +1,0 @@
-https://www.youtube.com/watch?v=9orKRpPMveY
-
-36:49
-
-- Setup reading todos
-- Next thing to do is to do delete and update todos
