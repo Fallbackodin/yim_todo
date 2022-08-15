@@ -113,25 +113,6 @@ const Login: FC = () => {
                 </div>
             </div>
         </div>
-        // <h1>Login Yo</h1>
-        // <h2>Email</h2>
-        // <input
-        //     type="email"
-        //     value={email}
-        //     onChange={handleEmail}
-        //     className="border-solid border-2 border-black"
-        // />
-        // <h2>Password</h2>
-        // <input
-        //     type="password"
-        //     value={password}
-        //     onChange={handlePassword}
-        //     className="border-solid border-2 border-black"
-        // />
-        // <div>
-        //     <button onClick={handleSignIn}>Sign In</button>
-        // </div>
-        // <p onClick={handleRegisterRedirect}>Create an account</p>
     );
 };
 

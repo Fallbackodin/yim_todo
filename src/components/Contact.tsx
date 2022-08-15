@@ -349,24 +349,6 @@ const Contact: FC = () => {
                 </div>
             )}
         </div>
-
-        // <div>
-        //     Contact is the main page
-        //     <button onClick={handleSignOut}>Sign Out</button>
-        //     <div>
-        //         <h1>New TasK</h1>
-        //         <input type="text" value={newTask} onChange={handleNewTask} />
-        //         <button onClick={writeToDb}>Add</button>
-        //         <h1>Update TasK</h1>
-        //         <input
-        //             type="text"
-        //             value={updateTodo?.todo}
-        //             onChange={handleGetUpdateText}
-        //         />
-        //         <button onClick={handleUpdateTodo}>Update</button>
-        //         {renderTodos()}
-        //     </div>
-        // </div>
     );
 };
 

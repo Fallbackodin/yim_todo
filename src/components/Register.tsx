@@ -166,26 +166,6 @@ const Register: FC = () => {
                 </div>
             </div>
         </div>
-        // <div>
-        //     <h2>Email</h2>
-        //     <input type="email" value={email} onChange={handleEmail} />
-        //     <h2>Password</h2>
-        //     <input type="password" value={password} onChange={handlePassword} />
-        //     <h2>Confirm Password</h2>
-        //     <input
-        //         type="password"
-        //         value={confirmPassword}
-        //         onChange={handleConfirmPassword}
-        //     />
-        //     <div>
-        //         <button onClick={handleRegister}>Register</button>
-        //     </div>
-        //     <div>
-        //         <button onClick={handleSignInRedirect}>
-        //             Go back to Sign In
-        //         </button>
-        //     </div>
-        // </div>
     );
 };
 
